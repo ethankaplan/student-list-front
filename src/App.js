@@ -1,11 +1,15 @@
 import React, {Component} from "react";
 import Nav from "react-bootstrap/Nav";
+import * as routes from './constants/routes'
+
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
+
 
 import { BrowserRouter as Router, Switch, Route, Link, withRouter } from "react-router-dom";
 
@@ -14,6 +18,13 @@ import EditStudent from "./components/EditStudent/edit-student.component";
 import StudentList from "./components/StudentList/student-list.component";
 
 class App extends Component {
+state = {
+  currentUser:{}
+
+}
+
+
+
   render(){
     return (<Router>
       <div className="App">
@@ -22,14 +33,14 @@ class App extends Component {
             <Container>
 
               <Navbar.Brand>
-                <Link to={"/create-student"} className="nav-link">
+                <Link to={routes.CREATE} className="nav-link">
                   React MERN Stack App
                 </Link>
               </Navbar.Brand>
 
               <Nav className="justify-content-end">
                 <Nav>
-                  <Link to={"/create-student"} className="nav-link">
+                  <Link to={routes.CREATE} className="nav-link">
                     Create Student
                   </Link>
                 </Nav>
@@ -41,7 +52,7 @@ class App extends Component {
                 </Nav> */}
 
                 <Nav>
-                  <Link to={"/student-list"} className="nav-link">
+                  <Link to={routes.STUDENTLIST} className="nav-link">
                     Student List
                   </Link>
                 </Nav>
@@ -56,10 +67,10 @@ class App extends Component {
             <Col md={12}>
               <div className="wrapper">
                 <Switch>
-                  <Route exact path='/' component={CreateStudent} />
-                  <Route path="/create-student" component={CreateStudent} />
-                  <Route path="/edit-student/:id" component={EditStudent} />
-                  <Route path="/student-list" component={StudentList} />
+                  <Route exact path={routes.HOME} component={CreateStudent} />
+                  <Route path={routes.CREATE} component={CreateStudent} />
+                  <Route path={`${routes.EDITSTUDENT}/:id`} component={EditStudent} />
+                  <Route path={routes.STUDENTLIST} component={StudentList} />
                 </Switch>
               </div>
             </Col>
