@@ -13,9 +13,10 @@ import "./App.css";
 
 import { BrowserRouter as Router, Switch, Route, Link, withRouter } from "react-router-dom";
 
-import CreateStudent from "./components/CreateStudent/create-student.component";
-import EditStudent from "./components/EditStudent/edit-student.component";
-import StudentList from "./components/StudentList/student-list.component";
+import CreateStudent from "./components/CreateStudent/create-student";
+import Home from "./components/Home/home"
+import EditStudent from "./components/EditStudent/edit-student";
+import StudentList from "./components/StudentList/student-list";
 import NavBar from "./components/NavBar/navbar"
 
 class App extends Component {
@@ -38,7 +39,7 @@ state = {
             <Col md={12}>
               <div className="wrapper">
                 <Switch>
-                  <Route exact path={routes.HOME} component={CreateStudent} />
+                  <Route exact path={routes.HOME} component={Home} />
                   <Route path={routes.CREATE} component={CreateStudent} />
                   <Route path={`${routes.EDITSTUDENT}/:id`} component={EditStudent} />
                   <Route path={routes.STUDENTLIST} component={StudentList} />

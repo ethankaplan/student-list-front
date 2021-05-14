@@ -14,8 +14,8 @@ export default class NavBar extends Component{
                 <Container>
 
                 <Navbar.Brand>
-                    <Link to={routes.CREATE} className="nav-link">
-                    React MERN Stack App
+                    <Link to={routes.HOME} className="nav-link">
+                    Teacher/Student Registry
                     </Link>
                 </Navbar.Brand>
 
@@ -25,12 +25,6 @@ export default class NavBar extends Component{
                         Create Student
                     </Link>
                     </Nav>
-
-                    {/* <Nav>
-                    <Link to={"/edit-student/:id"} className="nav-link">
-                        Edit Student
-                    </Link>
-                    </Nav> */}
 
                     <Nav>
                     <Link to={routes.STUDENTLIST} className="nav-link">

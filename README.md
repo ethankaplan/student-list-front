@@ -1,1 +1,3 @@
 # Getting back into studying and practicing
+This started as a tutorial, but now I'm expanding on it's functionality for more practice and to learn Axios a bit more. The goal of the webapp is for facult to be able register students and assign them to a teacher. 
+<p>There will be three kinds of user accounts, faculty (no students but can make changes), teachers (can see who's been assigned to them and see other classes), and students (can see their teacher and their class)
