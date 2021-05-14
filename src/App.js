@@ -11,13 +11,14 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 
 
-import { BrowserRouter as Router, Switch, Route, Link, withRouter } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, withRouter } from "react-router-dom";
 
 import CreateStudent from "./components/CreateStudent/create-student";
 import Home from "./components/Home/home"
 import EditStudent from "./components/EditStudent/edit-student";
 import StudentList from "./components/StudentList/student-list";
 import NavBar from "./components/NavBar/navbar"
+import Login from "./components/RegLogin/Login"
 
 class App extends Component {
 state = {
@@ -39,10 +40,11 @@ state = {
             <Col md={12}>
               <div className="wrapper">
                 <Switch>
-                  <Route exact path={routes.HOME} component={Home} />
-                  <Route path={routes.CREATE} component={CreateStudent} />
-                  <Route path={`${routes.EDITSTUDENT}/:id`} component={EditStudent} />
+                  <Route exact path={routes.HOME} render={()=><Home/>} />
+                  <Route path={routes.CREATE} render={()=><CreateStudent/>} />
+                  <Route path={`${routes.EDITSTUDENT}/:id`} render={()=><EditStudent/>} />
                   <Route path={routes.STUDENTLIST} component={StudentList} />
+                  <Route exact path={routes.LOGIN} component={Login}/>
                 </Switch>
               </div>
             </Col>

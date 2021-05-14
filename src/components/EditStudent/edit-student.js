@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom'
 
-export default class EditStudent extends Component {
+class EditStudent extends Component {
 
   constructor(props) {
     super(props)
@@ -94,3 +95,5 @@ export default class EditStudent extends Component {
     </div>);
   }
 }
+
+export default withRouter(EditStudent)
