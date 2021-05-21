@@ -37,3 +37,11 @@ body h3 {
   text-decoration: none;
   color: #ffffff;
 }
+
+Form.reglog{
+  border: .2rem solid #ececec;
+  padding: 1rem;
+  margin: 1rem 3rem;
+  
+  
+}

@@ -11,7 +11,22 @@ export default class StudentList extends Component {
     this.state = {
       students: []
     };
+    
   }
+
+  refreshTable = e =>{
+    axios.get('http://localhost:4000/students/')
+      .then(res => {
+        this.setState({
+          students: res.data
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+  
+
 
   componentDidMount() {
     axios.get('http://localhost:4000/students/')
@@ -27,7 +42,7 @@ export default class StudentList extends Component {
 
   DataTable() {
     return this.state.students.map((res, i) => {
-      return <StudentTableRow obj={res} key={i} />;
+      return <StudentTableRow obj={res} key={i} refreshtable={this.refreshTable}/>;
     });
   }
 

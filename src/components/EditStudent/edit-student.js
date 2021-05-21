@@ -66,6 +66,7 @@ class EditStudent extends Component {
       })
 
     // Redirect to Student List 
+    
     this.props.history.push('/student-list')
   }
 
