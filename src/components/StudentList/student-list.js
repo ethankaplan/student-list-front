@@ -14,7 +14,7 @@ export default class StudentList extends Component {
     
   }
 
-  refreshTable = e =>{
+  getTable = e =>{
     axios.get('http://localhost:4000/students/')
       .then(res => {
         this.setState({
@@ -26,23 +26,18 @@ export default class StudentList extends Component {
       })
   }
   
+  componentDidUpdate() {
+    this.getTable();
+  }
 
 
   componentDidMount() {
-    axios.get('http://localhost:4000/students/')
-      .then(res => {
-        this.setState({
-          students: res.data
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+    this.getTable();
   }
 
   DataTable() {
     return this.state.students.map((res, i) => {
-      return <StudentTableRow obj={res} key={i} refreshtable={this.refreshTable}/>;
+      return <StudentTableRow obj={res} key={i} /*refreshtable={this.refreshTable}*//>;
     });
   }
 
