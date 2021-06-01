@@ -4,14 +4,19 @@ import {Form, Button, Row, Col} from 'react-bootstrap'
 
 
 export default class Register extends Component{
-    /*state = {
+    state = {
         firstName: '',
         lastName:  '',
         email:     '',
         accType:   '',
         password:  ''
     }
-    */
+    changeHandler = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+            
+        })
+      };
     
     
     render(){
@@ -22,20 +27,20 @@ export default class Register extends Component{
                     <Form.Label>Name</Form.Label>
                     <Row>
                         <Col>
-                        <Form.Control placeholder="First name" />
+                        <Form.Control onChange={e => this.changeHandler(e)} name="firstName" placeholder="First name" />
                         </Col>
                         <Col>
-                        <Form.Control placeholder="Last name" />
+                        <Form.Control onChange={e => this.changeHandler(e)} name="lastName" placeholder="Last name" />
                         </Col>
                     </Row>
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" />
+                    <Form.Control onChange={e => this.changeHandler(e)} name="email" type="email" placeholder="Enter email" />
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Enter password" />
+                    <Form.Control onChange={e => this.changeHandler(e)} name="password" type="password" placeholder="Enter password" />
                     </Form.Group>
                     
                     <fieldset>
@@ -45,22 +50,28 @@ export default class Register extends Component{
                         </Form.Label>
                             <Col sm={10}>
                                 <Form.Check
+                                onChange={e => this.changeHandler(e)}
                                 type="radio"
                                 label="Administrator"
-                                name="formHorizontalRadios"
+                                name="accType"
                                 id="Admin"
+                                value="Admin"
                                 />
                                 <Form.Check
+                                onChange={e => this.changeHandler(e)}
                                 type="radio"
                                 label="Teacher"
-                                name="formHorizontalRadios"
+                                name="accType"
                                 id="Teach"
+                                value="Teach"
                                 />
                                 <Form.Check
+                                onChange={e => this.changeHandler(e)}
                                 type="radio"
                                 label="Student"
-                                name="formHorizontalRadios"
+                                name="accType"
                                 id="Stud"
+                                value="Stud"
                                 />
                             </Col>
                         </Form.Group>
