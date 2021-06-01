@@ -7,7 +7,7 @@ let userSchema = new Schema({
   firstName:{type:String,required: true},
   lastName:{type:String,required: true},
   accType:{type:String,required: true},
-  studentNumber:{type:Number,unique:true}
+  studentNumber:{type:Number,default:0}
 
 })
 
