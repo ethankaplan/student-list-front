@@ -14,6 +14,8 @@ let mongoose = require('mongoose'),
       if (error) {
         console.log(data)
         console.log(error)
+        res.json({err,
+        message:"Bad Login"})
         return next(error)
       } else {
         const passwordHash = bcrypt.hashSync(data.password, bcrypt.genSaltSync(10));

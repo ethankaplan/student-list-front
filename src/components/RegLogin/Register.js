@@ -10,7 +10,8 @@ export default class Register extends Component{
         lastName:  '',
         email:     '',
         accType:   '',
-        password:  ''
+        password:  '',
+        error: ''
     }
     changeHandler = e => {
         this.setState({
@@ -33,8 +34,10 @@ export default class Register extends Component{
         axios.post('http://localhost:4000/user/create-user', accObject)
         .then((res) => {
             console.log(res.data)
+            this.props.history.push('/')
         }).catch((error) => {
             console.log(error)
+            
         });
     
           //this.props.history.push('/')
