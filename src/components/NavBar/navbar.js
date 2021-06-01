@@ -19,7 +19,7 @@ export default class NavBar extends Component{
                     </Link>
                 </Navbar.Brand>
 
-                <Nav className="justify-content-end">
+                <Nav className="justify-content-md-center">
                     <Nav>
                     <Link to={routes.CREATE} className="nav-link">
                         Create Student
@@ -29,6 +29,19 @@ export default class NavBar extends Component{
                     <Nav>
                     <Link to={routes.STUDENTLIST} className="nav-link">
                         Student List
+                    </Link>
+                    </Nav>
+                </Nav>
+                <Nav className="justify-content-end">
+                    <Nav>
+                    <Link to={routes.LOGIN} className="nav-link">
+                        Login
+                    </Link>
+                    </Nav>
+
+                    <Nav>
+                    <Link to={routes.REGISTER} className="nav-link">
+                        Register
                     </Link>
                     </Nav>
                 </Nav>

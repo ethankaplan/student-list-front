@@ -19,6 +19,7 @@ import EditStudent from "./components/EditStudent/edit-student";
 import StudentList from "./components/StudentList/student-list";
 import NavBar from "./components/NavBar/navbar"
 import Login from "./components/RegLogin/Login"
+import Register from "./components/RegLogin/Register"
 
 class App extends Component {
 state = {
@@ -45,6 +46,7 @@ state = {
                   <Route path={`${routes.EDITSTUDENT}/:id`} render={()=><EditStudent/>} />
                   <Route path={routes.STUDENTLIST} component={StudentList} />
                   <Route exact path={routes.LOGIN} component={Login}/>
+                  <Route exact path={routes.REGISTER} component={Register}/>
                 </Switch>
               </div>
             </Col>
