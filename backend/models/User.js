@@ -11,4 +11,4 @@ let userSchema = new Schema({
 
 })
 
-module.exports = mongoose.model('Student', studentSchema)
+module.exports = mongoose.model('User', userSchema)

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 import {Form, Button, Row, Col} from 'react-bootstrap'
 
@@ -18,11 +19,31 @@ export default class Register extends Component{
         })
       };
     
+      onSubmit(e) {
+          
+        e.preventDefault()
+        console.log("button pushed")
+        const accObject = {
+          firstName: this.state.firstName,
+          lastName:this.state.lastName,
+          email: this.state.email,
+          accType:this.state.accType,
+          password:this.state.password
+        };
+        axios.post('http://localhost:4000/user/create-user', accObject)
+        .then((res) => {
+            console.log(res.data)
+        }).catch((error) => {
+            console.log(error)
+        });
+    
+          //this.props.history.push('/')
+      }
     
     render(){
         return(
             <div>
-                <Form className="reglog">
+                <Form className="reglog" onSubmit={e => this.onSubmit(e)}>
                     <Form.Group controlId="formBasicName">
                     <Form.Label>Name</Form.Label>
                     <Row>
@@ -36,11 +57,11 @@ export default class Register extends Component{
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control onChange={e => this.changeHandler(e)} name="email" type="email" placeholder="Enter email" />
+                    <Form.Control onChange={e => this.changeHandler(e)} name="email" type="email" placeholder="Email" />
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control onChange={e => this.changeHandler(e)} name="password" type="password" placeholder="Enter password" />
+                    <Form.Control onChange={e => this.changeHandler(e)} name="password" type="password" placeholder="Password" />
                     </Form.Group>
                     
                     <fieldset>

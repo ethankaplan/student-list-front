@@ -21,6 +21,7 @@ import NavBar from "./components/NavBar/navbar"
 import Login from "./components/RegLogin/Login"
 import Register from "./components/RegLogin/Register"
 
+
 class App extends Component {
 state = {
   currentUser:{}
