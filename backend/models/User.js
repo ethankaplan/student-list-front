@@ -7,8 +7,13 @@ let userSchema = new Schema({
   firstName:{type:String,required: true},
   lastName:{type:String,required: true},
   accType:{type:String,required: true},
-  studentNumber:{type:Number,default:0}
+  
+  studentNumber:{type:Number,default:-1},
 
+  
+
+},{
+  collection: 'users'
 })
 
 module.exports = mongoose.model('User', userSchema)

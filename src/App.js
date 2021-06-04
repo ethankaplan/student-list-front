@@ -20,6 +20,7 @@ import StudentList from "./components/StudentList/student-list";
 import NavBar from "./components/NavBar/navbar"
 import Login from "./components/RegLogin/Login"
 import Register from "./components/RegLogin/Register"
+import UserList from "./components/UserList/User-List"
 
 
 class App extends Component {
@@ -48,6 +49,8 @@ state = {
                   <Route path={routes.STUDENTLIST} component={StudentList} />
                   <Route exact path={routes.LOGIN} component={Login}/>
                   <Route exact path={routes.REGISTER} component={Register}/>
+
+                  <Route exact path={routes.USERLIST} component={UserList}/>
                 </Switch>
               </div>
             </Col>
