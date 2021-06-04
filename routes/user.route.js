@@ -15,7 +15,7 @@ let mongoose = require('mongoose'),
         console.log(data)
         console.log(error)
         res.json({err,
-        message:"Bad Login"})
+        msg:"Bad Login"})
         return next(error)
       } else {
         const passwordHash = bcrypt.hashSync(data.password, bcrypt.genSaltSync(10));
@@ -41,20 +41,44 @@ let mongoose = require('mongoose'),
           res.json({
             user,
             success: user? true : false,
-            message:"Success!"
+            msg:"Success!"
           })
         }else{
           res.json({err,
-            message:"Bad login"})
+            msg:"Bad login"})
         }
         
       } catch(err) {
         
         
         res.json({err,
-        message:"Bad login"})
+        msg:"Bad login"})
       }
     }
   })
+
+  //DELETE
+  router.route('/delete-user/:id').delete((req, res, next) => {
+    userSchema.findByIdAndRemove(req.params.id, (error, data) => {
+      if (error) {
+        return next(error);
+      } else {
+        res.status(200).json({
+          msg: data
+        })
+      }
+    })
+  })
+
+  //READ
+router.route('/').get((req, res) => {
+  userSchema.find((error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      res.json(data)
+    }
+  })
+})
 
   module.exports = router;
