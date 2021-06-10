@@ -28,33 +28,30 @@ let mongoose = require('mongoose'),
   });
 
   //LOGIN
-  router.route('/login').post((req, res, next) => {
+  router.route('/log-user').post((req, res, next) => {
     console.log('hit')
+    userSchema.findOne({email: req.body.email},(error, data)=>{
     if(error){
       return next(error)
     }else{
-      try {
-        const user = User.findOne({email: req.body.email})
-        
+
+        const user = data;
+        console.log(data)
         if(bcrypt.compareSync(req.body.password, user.password)){
-          
+          console.log("password match")
+
           res.json({
             user,
             success: user? true : false,
             msg:"Success!"
           })
         }else{
-          res.json({err,
+          res.json({
             msg:"Bad login"})
         }
         
-      } catch(err) {
-        
-        
-        res.json({err,
-        msg:"Bad login"})
       }
-    }
+    })
   })
 
   //DELETE
