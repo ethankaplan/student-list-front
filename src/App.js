@@ -29,6 +29,18 @@ state = {
 
 }
 
+doSetCurrentUser = user =>
+  this.setState({
+    currentUser: user
+  })
+
+doLogout=()=>{
+  this.setState({
+    currentUser:{}
+  })
+  this.props.history.push(routes.HOME)
+}
+
 
 
   render(){
@@ -47,7 +59,8 @@ state = {
                   <Route path={routes.CREATE} render={()=><CreateStudent/>} />
                   <Route path={`${routes.EDITSTUDENT}/:id`} render={()=><EditStudent/>} />
                   <Route path={routes.STUDENTLIST} component={StudentList} />
-                  <Route exact path={routes.LOGIN} component={Login}/>
+
+                  <Route exact path={routes.LOGIN} render={() => <Login doSetCurrentUser={this.doSetCurrentUser}/>} />
                   <Route exact path={routes.REGISTER} component={Register}/>
 
                   <Route exact path={routes.USERLIST} component={UserList}/>
