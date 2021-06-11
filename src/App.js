@@ -25,18 +25,21 @@ import UserList from "./components/UserList/User-List"
 
 class App extends Component {
 state = {
-  currentUser:{}
+  currentUser:{},
+  logged:false
 
 }
 
 doSetCurrentUser = user =>
   this.setState({
-    currentUser: user
+    currentUser: user,
+    logged:true
   })
 
-doLogout=()=>{
+logout=()=>{
   this.setState({
-    currentUser:{}
+    currentUser:{},
+    logged:false
   })
   this.props.history.push(routes.HOME)
 }
@@ -47,7 +50,7 @@ doLogout=()=>{
     return (<Router>
       <div className="App">
         <header className="App-header">
-          <NavBar/>
+          <NavBar logout={this.logout} logged={this.state.logged} currentUser={this.state.currentUser}/>
         </header>
 
         <Container>
@@ -55,7 +58,7 @@ doLogout=()=>{
             <Col md={12}>
               <div className="wrapper">
                 <Switch>
-                  <Route exact path={routes.HOME} render={()=><Home/>} />
+                  <Route exact path={routes.HOME} render={()=><Home />} />
                   <Route path={routes.CREATE} render={()=><CreateStudent/>} />
                   <Route path={`${routes.EDITSTUDENT}/:id`} render={()=><EditStudent/>} />
                   <Route path={routes.STUDENTLIST} component={StudentList} />

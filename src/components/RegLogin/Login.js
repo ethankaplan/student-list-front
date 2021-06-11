@@ -30,11 +30,10 @@ class Login extends Component{
         };
         axios.post('http://localhost:4000/user/log-user', logObject)
         .then((res) => {
-            console.log(res)
             if(res.data.success){
 
-            this.props.doSetCurrentUser(res.data.user)
-            this.props.history.push('/')
+                this.props.doSetCurrentUser(res.data.user)
+                this.props.history.push('/')
         }else{
             console.log("rejected")
         }

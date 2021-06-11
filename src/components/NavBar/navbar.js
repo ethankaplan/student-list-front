@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-
 import {Link} from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
+import { Container, Nav, Navbar, Button } from 'react-bootstrap';
+
 import * as routes from '../../constants/routes'
 
-import Navbar from "react-bootstrap/Navbar";
-
 export default class NavBar extends Component{
+    state={
+//        currentUser: {}
+
+    }
+
     render(){
         return(
             <Navbar bg="dark" variant="dark">
@@ -18,7 +20,7 @@ export default class NavBar extends Component{
                     Teacher/Student Registry
                     </Link>
                 </Navbar.Brand>
-
+                
                 <Nav className="justify-content-md-center">
                     <Nav>
                     <Link to={routes.CREATE} className="nav-link">
@@ -32,6 +34,8 @@ export default class NavBar extends Component{
                     </Link>
                     </Nav>
                 </Nav>
+                
+                {!this.props.logged?
                 <Nav className="justify-content-end">
                     <Nav>
                     <Link to={routes.LOGIN} className="nav-link">
@@ -45,6 +49,14 @@ export default class NavBar extends Component{
                     </Link>
                     </Nav>
                 </Nav>
+                    :
+                    //Logout
+                    <Nav className="justify-content-end">
+                        <Link onClick={this.props.logout}>Logout</Link>
+                    </Nav>
+                    }
+                
+                
 
                 </Container>
             </Navbar>
