@@ -23,7 +23,9 @@ export default class Register extends Component{
       onSubmit(e) {
           
         e.preventDefault()
+
         console.log("button pushed")
+        
         const accObject = {
           firstName: this.state.firstName,
           lastName:this.state.lastName,

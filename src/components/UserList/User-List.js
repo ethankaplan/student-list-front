@@ -51,7 +51,9 @@ export default class UserList extends Component {
           <tr>
               
             <th>Name</th>
+            <th>Acc Type</th>
             <th>Email</th>
+            <th>Roll Number</th>
             <th>Action</th>
           </tr>
         </thead>

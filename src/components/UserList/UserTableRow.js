@@ -25,8 +25,10 @@ export default class StudentTableRow extends Component {
     render() {
         return (
             <tr>
-                <td>{this.props.obj.firstName}</td>
+                <td>{this.props.obj.firstName} {this.props.obj.lastName}</td>
+                <td>{this.props.obj.accType}</td>
                 <td>{this.props.obj.email}</td>
+                <td>{this.props.obj.rollNum}</td>
                 
                 <td>
                     <Button onClick={this.deleteUser} size="sm" variant="danger">Delete</Button>

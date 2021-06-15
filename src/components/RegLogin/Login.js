@@ -7,7 +7,8 @@ import Button from 'react-bootstrap/Button';
 class Login extends Component{
     state={
         email:'',
-        password:''
+        password:'',
+        msg:''
     }
     componentDidCatchMount(){
         console.log(this.props)
@@ -28,6 +29,7 @@ class Login extends Component{
           password:this.state.password
           
         };
+
         axios.post('http://localhost:4000/user/log-user', logObject)
         .then((res) => {
             if(res.data.success){
@@ -35,10 +37,10 @@ class Login extends Component{
                 this.props.doSetCurrentUser(res.data.user)
                 this.props.history.push('/')
         }else{
-            console.log("rejected")
+            this.setState({msg:res.data.msg})
         }
         }).catch((error) => {
-            console.log(error)
+            this.setState({msg:"Error somewhere"})
             
         });
     
@@ -48,16 +50,19 @@ class Login extends Component{
     render(){
         return(
             <div>
+                
                 <Form className="reglog" onSubmit={e => this.onSubmit(e)} >
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control onChange={e => this.changeHandler(e)} name="email" type="email" placeholder="Enter email" />
+                    <Form.Control required onChange={e => this.changeHandler(e)} name="email" type="email" placeholder="Enter email" />
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control onChange={e => this.changeHandler(e)} name="password" type="password" placeholder="Password" />
+                    <Form.Control required onChange={e => this.changeHandler(e)} name="password" type="password" placeholder="Password" />
                 </Form.Group>
+                
+                <Form.Label>{this.state.msg}</Form.Label><br/>
                 <Button variant="primary" type="submit">
                     Submit
                 </Button>
