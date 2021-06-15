@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const { validate } = require('../models/User');
 let mongoose = require('mongoose'),
   express = require('express'),
   router = express.Router();
@@ -15,11 +16,24 @@ let mongoose = require('mongoose'),
         console.log(data)
         console.log(error)
         res.json({err,
-        msg:"Bad Login"})
+        msg:"Bad"})
         return next(error)
       } else {
         const passwordHash = bcrypt.hashSync(data.password, bcrypt.genSaltSync(10));
         data.password=passwordHash;
+        let roll = Math.floor(100000 + Math.random() * 900000);
+        let stoppage = true;
+        while(stoppage){
+          console.log(roll)
+            if(userSchema.findOne({rollNum: roll}).data==null){
+              stoppage=false
+            }else{
+              
+              roll = Math.floor(100000 + Math.random() * 900000);
+            }
+          
+          }
+        data.rollNum=roll;
         data.save();
         console.log(data)
         res.json(data)
@@ -36,8 +50,12 @@ let mongoose = require('mongoose'),
     }else{
 
         const user = data;
-
-        if(bcrypt.compareSync(req.body.password, user.password)){
+        if(user==null){
+          res.json({
+            msg:"Server not running"
+          })
+        }
+        else if(bcrypt.compareSync(req.body.password, user.password)){
 
           user.password="no peeking"
           

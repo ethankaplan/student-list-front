@@ -8,8 +8,8 @@ let userSchema = new Schema({
   lastName:{type:String,required: true},
   accType:{type:String,required: true},
   
-  studentNumber:{type:Number,default:-1},
-
+  rollNum:{type:Number, unique:true},
+  
   
 
 },{
