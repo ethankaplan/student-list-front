@@ -30,7 +30,7 @@ class Login extends Component{
           
         };
 
-        axios.post('http://localhost:4000/user/log-user', logObject)
+        axios.post(`${process.env.BACKEND_URL}/user/log-user`, logObject)
         .then((res) => {
             if(res.data.success){
 

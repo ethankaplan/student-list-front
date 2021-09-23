@@ -15,7 +15,7 @@ export default class StudentList extends Component {
   }
 
   getTable = e =>{
-    axios.get('http://localhost:4000/students/')
+    axios.get(`${process.env.BACKEND_URL}/students/`)
       .then(res => {
         this.setState({
           students: res.data
