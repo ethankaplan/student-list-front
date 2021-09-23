@@ -15,7 +15,7 @@ export default class StudentList extends Component {
   }
 
   getTable = e =>{
-    axios.get(`${process.env.BACKEND_URL}/students/`)
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/students/`)
       .then(res => {
         this.setState({
           students: res.data
@@ -27,7 +27,7 @@ export default class StudentList extends Component {
   }
   
   componentDidUpdate() {
-    this.getTable();
+    //this.getTable();
   }
 
 
@@ -37,13 +37,16 @@ export default class StudentList extends Component {
 
   DataTable() {
     return this.state.students.map((res, i) => {
-      return <StudentTableRow obj={res} key={i} /*refreshtable={this.refreshTable}*//>;
+      return <StudentTableRow obj={res} key={i} getTable={this.getTable}/>;
     });
   }
 
 
   render() {
-    return (<div className="table-wrapper">
+
+    return ( 
+    <div className="table-wrapper">
+      
       <Table striped bordered hover>
         <thead>
           <tr>

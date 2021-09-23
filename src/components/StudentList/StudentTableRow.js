@@ -9,13 +9,17 @@ export default class StudentTableRow extends Component {
         super(props);
         this.deleteStudent = this.deleteStudent.bind(this);
     }
+    getTable(){
+        this.props.getTable();
+    }
 
     deleteStudent() {
-        axios.delete(`${process.env.BACKEND_URL}/students/delete-student/` + this.props.obj._id)
+        axios.delete(`${process.env.REACT_APP_BACKEND_URL}/students/delete-student/` + this.props.obj._id)
             .then((res) => {
                 
                 console.log('Student successfully deleted!')
                 console.log(res)
+                this.getTable();
                 
             }).catch((error) => {
                 console.log(error)
@@ -23,8 +27,10 @@ export default class StudentTableRow extends Component {
     }
 
     render() {
+        
         return (
             <tr>
+                
                 <td>{this.props.obj.name}</td>
                 <td>{this.props.obj.email}</td>
                 <td>{this.props.obj.rollno}</td>

@@ -15,7 +15,7 @@ export default class UserList extends Component {
   }
 
   getTable = e =>{
-    axios.get(`${process.env.BACKEND_URL}/user/`)
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/`)
       .then(res => {
         this.setState({
           users: res.data

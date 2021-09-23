@@ -23,7 +23,7 @@ class EditStudent extends Component {
   }
 
   componentDidMount() {
-    axios.get(`${process.env.BACKEND_URL}/students/edit-student/` + this.props.match.params.id)
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/students/edit-student/` + this.props.match.params.id)
       .then(res => {
         this.setState({
           name: res.data.name,
@@ -57,7 +57,7 @@ class EditStudent extends Component {
       rollno: this.state.rollno
     };
 
-    axios.put(`${process.env.BACKEND_URL}/students/update-student/` + this.props.match.params.id, studentObject)
+    axios.put(`${process.env.REACT_APP_BACKEND_URL}/students/update-student/` + this.props.match.params.id, studentObject)
       .then((res) => {
         console.log(res.data)
         console.log('Student successfully updated')

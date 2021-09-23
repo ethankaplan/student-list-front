@@ -42,7 +42,7 @@ export default class CreateStudent extends Component {
       email: this.state.email,
       rollno: this.state.rollno
     };
-    axios.post(`${process.env.BACKEND_URL}/students/create-student`, studentObject)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/students/create-student`, studentObject)
       .then(res => console.log(res.data));
 
     this.setState({ name: '', email: '', rollno: '' })

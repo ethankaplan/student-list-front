@@ -33,7 +33,7 @@ export default class Register extends Component{
           accType:this.state.accType,
           password:this.state.password
         };
-        axios.post(`${process.env.BACKEND_URL}/user/create-user`, accObject)
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/create-user`, accObject)
         .then((res) => {
             console.log(res.data)
             this.props.history.push('/')
