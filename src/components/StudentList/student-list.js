@@ -15,9 +15,7 @@ export default class StudentList extends Component {
   }
 
   getTable = e =>{
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/students/`,{
-      headers:{'Access-Control-Allow-Origin':'*'}
-    })
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/students/`)
       .then(res => {
         this.setState({
           students: res.data
