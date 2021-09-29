@@ -9,7 +9,8 @@ export default class UserList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      users: []
+      users: [],
+      refresh:true,
     };
     
   }
@@ -18,7 +19,8 @@ export default class UserList extends Component {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/`)
       .then(res => {
         this.setState({
-          users: res.data
+          users: res.data,
+          refresh:false
         });
       })
       .catch((error) => {
@@ -27,7 +29,9 @@ export default class UserList extends Component {
   }
   
   componentDidUpdate() {
+    if(this.state.refresh){
     this.getTable();
+    }
   }
 
 

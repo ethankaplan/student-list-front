@@ -31,7 +31,7 @@ export default class StudentTableRow extends Component {
         return (
             <tr>
                 
-                <td>{this.props.obj.name}</td>
+                <td>{this.props.obj.lastName}, {this.props.obj.firstName}</td>
                 <td>{this.props.obj.email}</td>
                 <td>{this.props.obj.rollno}</td>
                 <td>
