@@ -9,7 +9,8 @@ export default class StudentList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      students: []
+      students: [],
+      refresh:true
     };
     
   }
@@ -18,16 +19,20 @@ export default class StudentList extends Component {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/students/`)
       .then(res => {
         this.setState({
-          students: res.data
+          students: res.data,
+          refresh:false
         });
       })
       .catch((error) => {
         console.log(error);
       })
+    
   }
   
   componentDidUpdate() {
-    //this.getTable();
+    if(this.state.refresh){
+    this.getTable();
+    }
   }
 
 
