@@ -43,7 +43,7 @@ export default class UserList extends Component {
 
   DataTable() {
     return this.state.users.map((res, i) => {
-      return <UserTableRow obj={res} key={i} />;
+      return <UserTableRow obj={res} key={i} getTable={this.getTable}/>;
     });
   }
 

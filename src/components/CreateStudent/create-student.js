@@ -19,11 +19,22 @@ export default class CreateStudent extends Component {
       rollNum: ''
     }
   }
+
+  generate =e=>{
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/students/gen`)
+      .then(res=>
+        this.setState({
+        rollNum:res.data
+      })
+      )
+  }
+
   changeHandler = e => {
     this.setState({
         [e.target.name]: e.target.value  
     })
   };
+
 
   onSubmit(e) {
     e.preventDefault()
@@ -40,6 +51,7 @@ export default class CreateStudent extends Component {
 
     this.setState({ firstName: '',lastName:'', email: '', rollNum: '' })
   }
+
 
   render() {
     return (<div className="form-wrapper">
@@ -62,8 +74,9 @@ export default class CreateStudent extends Component {
         </Form.Group>
 
         <Form.Group controlId="Name">
-          <Form.Label>Roll No</Form.Label>
-          <Form.Control type="text" name="rollNum" value={this.state.rollNum} onChange={e => this.changeHandler(e)} />
+          <Row><Col><Form.Label>Roll Number</Form.Label></Col>
+          <Col className="d-flex justify-content-end"><Button size='sm' variant="info" onClick={this.generate}> Generate </Button></Col></Row>
+          <Form.Control type="text" disabled name="rollNum" value={this.state.rollNum} onChange={e => this.changeHandler(e)} />
         </Form.Group>
 
         <Button variant="danger" size="lg" block="block" type="submit">
