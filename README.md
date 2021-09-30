@@ -1,3 +1,4 @@
 # Getting back into studying and practicing
 This started as a tutorial, but now I'm expanding on it's functionality for more practice and to learn Axios and GraphQL a bit more. The goal of the webapp is for faculty to be able register students and assign them to a teacher. 
-<p>There will be three kinds of user accounts, faculty (no students but can make changes), teachers (can see who's been assigned to them and see other classes), and students (can see their teacher and their class)
+<p>There will be two kinds of user accounts, faculty and teachers. Students will be able to input their roll number and see the teacher they're assigned to.<p>
+<a href="https://student-list-fe.herokuapp.com/">I've hosted this on Heroku</a> and <a href="https://github.com/ethankaplan/student-list-back">the backend is here on github.</a>

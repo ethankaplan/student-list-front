@@ -91,14 +91,6 @@ export default class Register extends Component{
                                 id="Teach"
                                 value="Teach"
                                 />
-                                <Form.Check
-                                onChange={e => this.changeHandler(e)}
-                                type="radio"
-                                label="Student"
-                                name="accType"
-                                id="Stud"
-                                value="Stud"
-                                />
                             </Col>
                         </Form.Group>
                 </fieldset>
