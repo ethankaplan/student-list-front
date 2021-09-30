@@ -8,9 +8,6 @@ export default class CreateStudent extends Component {
     super(props)
 
     // Setting up functions
-    this.onChangeStudentName = this.onChangeStudentName.bind(this);
-    this.onChangeStudentEmail = this.onChangeStudentEmail.bind(this);
-    this.onChangeStudentRollno = this.onChangeStudentRollno.bind(this);
     this.changeHandler = this.changeHandler.bind(this)
     this.onSubmit = this.onSubmit.bind(this);
 
@@ -19,28 +16,13 @@ export default class CreateStudent extends Component {
       firstName: '',
       lastName:'',
       email: '',
-      rollno: ''
+      rollNum: ''
     }
   }
-
-  onChangeStudentName(e) {
-    this.setState({ name: e.target.value })
-  }
-
-  onChangeStudentEmail(e) {
-    this.setState({ email: e.target.value })
-  }
-
-  onChangeStudentRollno(e) {
-    this.setState({ rollno: e.target.value })
-  }
-
   changeHandler = e => {
     this.setState({
-        [e.target.name]: e.target.value
-        
+        [e.target.name]: e.target.value  
     })
-
   };
 
   onSubmit(e) {
@@ -50,13 +32,13 @@ export default class CreateStudent extends Component {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       email: this.state.email,
-      rollno: this.state.rollno
+      rollNum: this.state.rollNum
     };
     console.log(studentObject)
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/students/create-student`, studentObject)
       .then(res => console.log(res.data));
 
-    this.setState({ firstName: '',lastName:'', email: '', rollno: '' })
+    this.setState({ firstName: '',lastName:'', email: '', rollNum: '' })
   }
 
   render() {
@@ -81,7 +63,7 @@ export default class CreateStudent extends Component {
 
         <Form.Group controlId="Name">
           <Form.Label>Roll No</Form.Label>
-          <Form.Control type="text" name="rollno" value={this.state.rollno} onChange={e => this.changeHandler(e)} />
+          <Form.Control type="text" name="rollNum" value={this.state.rollNum} onChange={e => this.changeHandler(e)} />
         </Form.Group>
 
         <Button variant="danger" size="lg" block="block" type="submit">

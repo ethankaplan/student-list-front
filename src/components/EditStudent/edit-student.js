@@ -9,20 +9,19 @@ class EditStudent extends Component {
 
   constructor(props) {
     super(props)
-
-    this.onChangeStudentName = this.onChangeStudentName.bind(this);
-    this.onChangeStudentEmail = this.onChangeStudentEmail.bind(this);
-    this.onChangeStudentRollno = this.onChangeStudentRollno.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    
+    this.changeHandler = this.changeHandler.bind(this)
 
     // State
     this.state = {
-      name: '',
-      nameP:'',
+      firstName: '',
+      firstConst:'',
+      lastName: '',
+      lastConst:'',
       email: '',
-      emailP:'',
-      rollno: '',
-      rollnoP:''
+      emailConst:'',
+      rollNum: '',
+      rollNumConst:''
     }
   }
 
@@ -30,12 +29,14 @@ class EditStudent extends Component {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/students/edit-student/` + this.props.match.params.id)
       .then(res => {
         this.setState({
-          name: res.data.name,
+          firstName: res.data.firstName,
+          lastName: res.data.lastName,
           email: res.data.email,
-          rollno: res.data.rollno,
-          nameP: res.data.name,
-          emailP: res.data.email,
-          rollnoP: res.data.rollno
+          rollNum: res.data.rollNum,
+          //these are not meant to change
+          firstConst: res.data.firstName,
+          lastConst: res.data.lastName,
+          emailConst: res.data.email,
         });
       })
       .catch((error) => {
@@ -43,17 +44,12 @@ class EditStudent extends Component {
       })
   }
 
-  onChangeStudentName(e) {
-    this.setState({ name: e.target.value })
-  }
 
-  onChangeStudentEmail(e) {
-    this.setState({ email: e.target.value })
-  }
-
-  onChangeStudentRollno(e) {
-    this.setState({ rollno: e.target.value })
-  }
+  changeHandler = e => {
+    this.setState({
+        [e.target.name]: e.target.value  
+    })
+  };
 
   onSubmit(e) {
     e.preventDefault()
@@ -61,7 +57,7 @@ class EditStudent extends Component {
     const studentObject = {
       name: this.state.name,
       email: this.state.email,
-      rollno: this.state.rollno
+      rollNum: this.state.rollNum
     };
 
     axios.put(`${process.env.REACT_APP_BACKEND_URL}/students/update-student/` + this.props.match.params.id, studentObject)
@@ -81,19 +77,35 @@ class EditStudent extends Component {
     return (<div className="form-wrapper">
       <Container><Row className="justify-content-md-center">Editing Student: {this.state.nameP}</Row>
       <Form onSubmit={this.onSubmit}>
-        <Form.Group controlId="Name">
-          <Form.Label>Name</Form.Label>
-          <Form.Control type="text" value={this.state.name} onChange={this.onChangeStudentName} />
+      <Form.Group controlId="Name">
+        <Form.Label>Name</Form.Label>
+        <Row>
+            <Col className="d-flex justify-content-end">
+              {this.state.firstConst}
+            </Col>
+            <Col className="d-flex justify-content-end">
+              {this.state.lastConst}
+            </Col>
+          </Row>
+        <Row>
+            <Col>
+              <Form.Control onChange={e => this.changeHandler(e)} name="firstName" placeholder="First name" value={this.state.firstName}/>
+            </Col>
+            <Col>
+              <Form.Control onChange={e => this.changeHandler(e)} name="lastName" placeholder="Last name" value={this.state.lastName} />
+            </Col>
+          </Row>
+
         </Form.Group>
 
         <Form.Group controlId="Email">
-        <Row><Col><Form.Label>Email</Form.Label></Col><Col className="d-flex justify-content-end">Currently: {this.state.emailP}</Col></Row>
-          <Form.Control type="email" value={this.state.email} onChange={this.onChangeStudentEmail} />
+        <Row><Col><Form.Label>Email</Form.Label></Col><Col className="d-flex justify-content-end">{this.state.emailConst}</Col></Row>
+          <Form.Control type="email" value={this.state.email} name="email" onChange={e => this.changeHandler(e)} />
         </Form.Group>
 
         <Form.Group controlId="Name">
-        <Row><Col><Form.Label>Roll Number</Form.Label></Col><Col className="d-flex justify-content-end">Currently: {this.state.rollnoP}</Col></Row>
-          <Form.Control type="text" value={this.state.rollno} onChange={this.onChangeStudentRollno} />
+        <Row><Col><Form.Label>Roll Number</Form.Label></Col></Row>
+          <Form.Control disabled type="text" value={this.state.rollNum} name="rollNum" />
         </Form.Group>
 
         <Button variant="danger" size="lg" block="block" type="submit">
