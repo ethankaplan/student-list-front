@@ -55,6 +55,7 @@ export default class CreateStudent extends Component {
 
   render() {
     return (<div className="form-wrapper">
+      <h2 className="d-flex justify-content-center">Add New Student</h2>
       <Form onSubmit={this.onSubmit}>
         <Form.Group controlId="Name">
         <Form.Label>Name</Form.Label>

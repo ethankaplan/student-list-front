@@ -75,7 +75,8 @@ class EditStudent extends Component {
 
   render() {
     return (<div className="form-wrapper">
-      <Container><Row className="justify-content-md-center">Editing Student: {this.state.nameP}</Row>
+      <h2 className="d-flex justify-content-center">Editing {this.student.firstConst} {this.student.lastConst}</h2>
+      <Container>
       <Form onSubmit={this.onSubmit}>
       <Form.Group controlId="Name">
         <Form.Label>Name</Form.Label>

@@ -48,7 +48,8 @@ export default class Register extends Component{
     render(){
         return(
             <div>
-                <Form className="reglog" onSubmit={e => this.onSubmit(e)}>
+                <h2 className="d-flex justify-content-center">Register</h2>
+                <Form className="form-wrapper" onSubmit={e => this.onSubmit(e)}>
                     <Form.Group controlId="formBasicName">
                     <Form.Label>Name</Form.Label>
                     <Row>

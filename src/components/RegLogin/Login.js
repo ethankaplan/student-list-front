@@ -50,8 +50,8 @@ class Login extends Component{
     render(){
         return(
             <div>
-                
-                <Form className="reglog" onSubmit={e => this.onSubmit(e)} >
+                <h2 className="d-flex justify-content-center">Login</h2>
+                <Form className="form-wrapper " onSubmit={e => this.onSubmit(e)} >
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control required onChange={e => this.changeHandler(e)} name="email" type="email" placeholder="Enter email" />
