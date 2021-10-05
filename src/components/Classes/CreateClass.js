@@ -15,12 +15,13 @@ export default class CreateClass extends Component {
     this.state = {
       teacher: '',
       title:'',
-      teachList
+      teachList:[],
+      classID:''
     }
   }
 
   componentDidMount(){
-      axios.get(`${process.env.REACT_APP_BACKEND_URL}/`)
+      axios.get(`${process.env.REACT_APP_BACKEND_URL}/get-teachers`)
   }
 
   changeHandler = e => {
@@ -33,17 +34,14 @@ export default class CreateClass extends Component {
   onSubmit(e) {
     e.preventDefault()
 
-    const studentObject = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      rollNum: this.state.rollNum
+    const classObject = {
+      teacher: this.state.teacher,
+      title: this.state.title,
     };
     console.log(studentObject)
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/students/create-student`, studentObject)
-      .then(res => console.log(res.data));
-
-    this.setState({ firstName: '',lastName:'', email: '', rollNum: '' })
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/classes/create-class`, classObject)
+      .then(res => this.setState({classID:res.data._id}))
+      .then(this.props.history.push(`/class/${this.state.classID}`));
   }
 
 
@@ -55,10 +53,22 @@ export default class CreateClass extends Component {
         <Form.Label>Class Title</Form.Label>
               <Form.Control onChange={e => this.changeHandler(e)} name="title" placeholder="Title" value={this.state.title}/>
         </Form.Group>
-        <Form.Group controlId="Teacher">
-          <Form.Label>Teacher</Form.Label>
-          <Form.Control type="email" name="email" value={this.state.teacher} onChange={e => this.changeHandler(e)} />
-        </Form.Group>
+                
+                <Form.Group controlId="formBasicSelect">
+                    <Form.Label>Teacher</Form.Label>
+                    <Form.Control
+                    as="select"
+                    value={''}
+                    onChange={e => {
+                        console.log("e.target.value", e.target.value);
+                        this.changeHandler(e)
+                    }}
+                    >
+                    <option name="teacher" value="DICTUM">Dictamen</option>
+                    <option name="teacher" value="CONSTANCY">Constancia</option>
+                    <option name="teacher" value="COMPLEMENT">Complemento</option>
+                    </Form.Control>
+                </Form.Group>
 
         <Form.Group controlId="Name">
           <Row><Col><Form.Label>Roll Number</Form.Label></Col>
