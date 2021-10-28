@@ -6,4 +6,6 @@ export const STUDENTLIST = '/student-list'
 export const USERLIST = '/user-list'
 export const REGISTER = '/register'
 export const LOGIN = '/login'
+export const CLASS = '/class'
+export const NEWCLASS= `${CLASS}/NEW`
 

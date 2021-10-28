@@ -108,6 +108,10 @@ export default class Register extends Component{
                                 />
                             </Col>
                         </Form.Group>
+                        
+
+
+
                 </fieldset>
 
                           

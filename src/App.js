@@ -21,6 +21,7 @@ import NavBar from "./components/NavBar/navbar"
 import Login from "./components/RegLogin/Login"
 import Register from "./components/RegLogin/Register"
 import UserList from "./components/UserList/User-List"
+import CreateClass from "./components/Classes/CreateClass/CreateClass";
 
 
 class App extends Component {
@@ -65,6 +66,7 @@ logout=()=>{
 
                   <Route exact path={routes.LOGIN} render={() => <Login doSetCurrentUser={this.doSetCurrentUser}/>} />
                   <Route exact path={routes.REGISTER} component={Register}/>
+                  <Route exact path={routes.NEWCLASS} component={CreateClass}/>
 
                   <Route exact path={routes.USERLIST} component={UserList}/>
                 </Switch>

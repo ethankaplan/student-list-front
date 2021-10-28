@@ -7,21 +7,42 @@ export default class CreateClass extends Component {
   constructor(props) {
     super(props)
 
-    // Setting up functions
     this.changeHandler = this.changeHandler.bind(this)
     this.onSubmit = this.onSubmit.bind(this);
 
-    // Setting up state
+    
     this.state = {
       teacher: '',
       title:'',
       teachList:[],
-      classID:''
+      classID:'',
+      tLoad:true,
     }
   }
 
   componentDidMount(){
-      axios.get(`${process.env.REACT_APP_BACKEND_URL}/get-teachers`)
+    this.teacherLister()    
+    
+      
+  }
+
+  teacherLister(){
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/teachers`)
+    .then(res => {
+      this.setState({
+        teachList: res.data,
+        tLoad:false
+      });
+    console.log(this.state.teachList)
+    
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
+  componentDidUpdate(){
+  
   }
 
   changeHandler = e => {
@@ -38,16 +59,23 @@ export default class CreateClass extends Component {
       teacher: this.state.teacher,
       title: this.state.title,
     };
-    console.log(studentObject)
+    console.log(classObject)
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/classes/create-class`, classObject)
       .then(res => this.setState({classID:res.data._id}))
       .then(this.props.history.push(`/class/${this.state.classID}`));
   }
 
 
+
+
   render() {
-    return (<div className="form-wrapper">
-      <h2 className="d-flex justify-content-center">Add New Student</h2>
+    function options(teach){
+      return <option>{teach.firstName}</option>
+    }
+    return (<div>
+      <div className="form-wrapper">
+      
+      <h2 className="d-flex justify-content-center">Add New Class</h2>
       <Form onSubmit={this.onSubmit}>
         <Form.Group controlId="ClassTitle">
         <Form.Label>Class Title</Form.Label>
@@ -58,28 +86,40 @@ export default class CreateClass extends Component {
                     <Form.Label>Teacher</Form.Label>
                     <Form.Control
                     as="select"
-                    value={''}
+                    
                     onChange={e => {
-                        console.log("e.target.value", e.target.value);
+                        
                         this.changeHandler(e)
                     }}
                     >
-                    <option name="teacher" value="DICTUM">Dictamen</option>
-                    <option name="teacher" value="CONSTANCY">Constancia</option>
-                    <option name="teacher" value="COMPLEMENT">Complemento</option>
+                    {this.state.tLoad ? <option>Loading</option> 
+                    
+                    :
+                    this.state.teachList.map((teach, i)=>{
+                      
+                      return <option 
+                      label={`${teach.lastName}, ${teach.firstName} - ${teach.rollNum}`}
+                      name="teacher"
+                      key={i}
+                      
+                      value={`${teach.id}`}>
+                          {teach.lastName}, {teach.firstName} - {teach.rollNum}
+                      </option>
+                      
+                    })}
+                    
+                    
+                    
                     </Form.Control>
+                    
                 </Form.Group>
 
-        <Form.Group controlId="Name">
-          <Row><Col><Form.Label>Roll Number</Form.Label></Col>
-          <Col className="d-flex justify-content-end"><Button size='sm' variant="info" onClick={this.generate}> Generate </Button></Col></Row>
-          <Form.Control type="text" disabled name="rollNum" value={this.state.rollNum} onChange={e => this.changeHandler(e)} />
-        </Form.Group>
+    
 
         <Button variant="danger" size="lg" block="block" type="submit">
-          Create Student
+          Create Class
         </Button>
       </Form>
-    </div>);
+    </div></div>);
   }
 }
