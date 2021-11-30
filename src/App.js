@@ -22,7 +22,8 @@ import Login from "./components/RegLogin/Login"
 import Register from "./components/RegLogin/Register"
 import UserList from "./components/UserList/User-List"
 import CreateClass from "./components/Classes/CreateClass/CreateClass";
-
+import ViewClass from "./components/Classes/ViewClass/ViewClass"
+import ClassList from "./components/Classes/ClassList/ClassList"
 
 class App extends Component {
 state = {
@@ -67,6 +68,7 @@ logout=()=>{
                   <Route exact path={routes.LOGIN} render={() => <Login doSetCurrentUser={this.doSetCurrentUser}/>} />
                   <Route exact path={routes.REGISTER} component={Register}/>
                   <Route exact path={routes.NEWCLASS} component={CreateClass}/>
+                  <Route exact path={routes.CLASS} component={ClassList}/>
 
                   <Route exact path={routes.USERLIST} component={UserList}/>
                 </Switch>

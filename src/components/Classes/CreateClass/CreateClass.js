@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {Form, Button, Row, Col} from 'react-bootstrap'
 import axios from 'axios';
+import * as routes from '../../../constants/routes'
 
 export default class CreateClass extends Component {
 
@@ -12,7 +13,7 @@ export default class CreateClass extends Component {
 
     
     this.state = {
-      teacher: '',
+      teacher: '-1',
       title:'',
       teachList:[],
       classID:'',
@@ -49,29 +50,31 @@ export default class CreateClass extends Component {
     this.setState({
         [e.target.name]: e.target.value  
     })
+    console.log(this.state)
   };
 
 
   onSubmit(e) {
     e.preventDefault()
-
-    const classObject = {
-      teacher: this.state.teacher,
-      title: this.state.title,
-    };
-    console.log(classObject)
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/classes/create-class`, classObject)
-      .then(res => this.setState({classID:res.data._id}))
-      .then(this.props.history.push(`/class/${this.state.classID}`));
+    if(this.state.teacher==-1||this.state.title==''){
+      //reject
+    }else{
+      const classObject = {
+        teacher: this.state.teacher,
+        title: this.state.title,
+      };
+      console.log(classObject)
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/class/create-class`, classObject)
+        .then(res => this.setState({classID:res.data._id}))
+        //.then(this.props.history.push(`/${routes.CLASS}/${this.state.classID}`));
+    }
   }
 
 
 
 
   render() {
-    function options(teach){
-      return <option>{teach.firstName}</option>
-    }
+
     return (<div>
       <div className="form-wrapper">
       
@@ -86,26 +89,17 @@ export default class CreateClass extends Component {
                     <Form.Label>Teacher</Form.Label>
                     <Form.Control
                     as="select"
-                    
-                    onChange={e => {
-                        
-                        this.changeHandler(e)
-                    }}
+                    onChange={e => {this.changeHandler(e)}}
+                    name="teacher"
                     >
-                    {this.state.tLoad ? <option>Loading</option> 
-                    
-                    :
-                    this.state.teachList.map((teach, i)=>{
-                      
+                    <option value ={-1} >-Select One-</option> 
+                    {
+                    this.state.teachList.map((teach, i)=>{  
                       return <option 
                       label={`${teach.lastName}, ${teach.firstName} - ${teach.rollNum}`}
-                      name="teacher"
-                      key={i}
-                      
-                      value={`${teach.id}`}>
-                          {teach.lastName}, {teach.firstName} - {teach.rollNum}
-                      </option>
-                      
+                      value={teach._id}  
+                    />
+
                     })}
                     
                     

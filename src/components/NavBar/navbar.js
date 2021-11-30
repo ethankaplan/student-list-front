@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
-import { Container, Nav, Navbar, Button } from 'react-bootstrap';
+import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 
 import * as routes from '../../constants/routes'
 
@@ -33,6 +33,12 @@ export default class NavBar extends Component{
                         Student List
                     </Link>
                     </Nav>
+
+                    <NavDropdown title="Classes" id="nav-dropdown">
+                        <NavDropdown.Item ><Link to={routes.CLASS}>View All</Link></NavDropdown.Item>
+                        <NavDropdown.Item ><Link to={routes.NEWCLASS}>New</Link></NavDropdown.Item>
+                        
+                    </NavDropdown>
                 </Nav>
                 
                 {!this.props.logged?
