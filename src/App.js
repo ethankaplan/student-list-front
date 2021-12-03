@@ -69,6 +69,7 @@ logout=()=>{
                   <Route exact path={routes.REGISTER} component={Register}/>
                   <Route exact path={routes.NEWCLASS} component={CreateClass}/>
                   <Route exact path={routes.CLASS} component={ClassList}/>
+                  <Route path={`${routes.CLASS}/:id`} render={()=><ViewClass/>}/>
 
                   <Route exact path={routes.USERLIST} component={UserList}/>
                 </Switch>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import Table from 'react-bootstrap/Table';
+import Table from 'react-bootstrap/table';
 import ClassTableRow from './ClassTableRow';
 
 
@@ -36,7 +36,7 @@ export default class ClassList extends Component {
 
   componentDidMount() {
     this.getTable();
-    console.log(this.state.classes)
+
   }
 
   DataTable() {
@@ -55,6 +55,7 @@ export default class ClassList extends Component {
               
             <th>Title</th>
             <th>Teacher</th>
+            <th>Buttons</th>
           </tr>
         </thead>
         <tbody>

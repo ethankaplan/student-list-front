@@ -11,6 +11,7 @@ class EditStudent extends Component {
     super(props)
     
     this.changeHandler = this.changeHandler.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
 
     // State
     this.state = {
@@ -48,14 +49,17 @@ class EditStudent extends Component {
   changeHandler = e => {
     this.setState({
         [e.target.name]: e.target.value  
+        
     })
+    
   };
 
   onSubmit(e) {
     e.preventDefault()
 
     const studentObject = {
-      name: this.state.name,
+      firstName: this.state.firstName,
+      lastName:this.state.lastName,
       email: this.state.email,
       rollNum: this.state.rollNum
     };
@@ -67,9 +71,10 @@ class EditStudent extends Component {
       }).catch((error) => {
         console.log(error)
       })
-
+      
     // Redirect to Student List 
     this.props.history.push('/student-list')
+    this.props.history.go(0)
   }
 
 

@@ -4,11 +4,11 @@ import axios from 'axios';
 import { Button }  from 'react-bootstrap';
 import * as routes from '../../../constants/routes'
 
-export default class ClassTableRow extends Component {
+export default class ClassStudentRow extends Component {
 
     constructor(props) {
         super(props);
-        this.deleteClass = this.deleteClass.bind(this);
+
         
     }
 
@@ -34,13 +34,10 @@ export default class ClassTableRow extends Component {
     render() {
         return (
             <tr>
-                <td>{this.props.obj.title}</td>
-                <td>{this.props.obj.teacher.lastName}, {this.props.obj.teacher.firstName}</td>
+                <td>{this.props.obj.lastName}, {this.props.obj.firstName}</td>
+                <td>{this.props.obj.rollNum}</td>
                 <td>
-                    <Link className="edit-link" to={routes.CLASS+ "/" + this.props.obj._id} >
-                        View/Edit
-                    </Link>
-                    <Button onClick={this.deleteClass} size="sm" variant="danger">Delete</Button>
+                    
                 </td>
                 
                 
