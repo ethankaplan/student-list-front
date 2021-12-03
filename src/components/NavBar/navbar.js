@@ -22,22 +22,22 @@ export default class NavBar extends Component{
                 </Navbar.Brand>
                 
                 <Nav className="justify-content-md-center">
-                    <Nav>
-                    <Link to={routes.CREATE} className="nav-link">
-                        Create Student
-                    </Link>
-                    </Nav>
 
-                    <Nav>
-                    <Link to={routes.STUDENTLIST} className="nav-link">
+                    <NavDropdown title="Students" id="nav-dropdown">
+                    <NavDropdown.Item ><Link to={routes.STUDENTLIST}>
                         Student List
-                    </Link>
-                    </Nav>
-
+                    </Link></NavDropdown.Item>
+                        <NavDropdown.Item ><Link to={routes.CREATE}>
+                        New Student
+                    </Link></NavDropdown.Item>
+                    </NavDropdown>
                     <NavDropdown title="Classes" id="nav-dropdown">
-                        <NavDropdown.Item ><Link to={routes.CLASS}>View All</Link></NavDropdown.Item>
-                        <NavDropdown.Item ><Link to={routes.NEWCLASS}>New</Link></NavDropdown.Item>
+                        <NavDropdown.Item ><Link to={routes.CLASS}>Class List</Link></NavDropdown.Item>
+                        <NavDropdown.Item ><Link to={routes.NEWCLASS}>New Class</Link></NavDropdown.Item>
                         
+                    </NavDropdown>
+                    <NavDropdown title="Users" id="nav-dropdown">
+                        <NavDropdown.Item ><Link to={routes.USERLIST}>User List</Link></NavDropdown.Item>                       
                     </NavDropdown>
                 </Nav>
                 
