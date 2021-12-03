@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import { Table, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-import ClassStudentRow from './ClassStudentRow';
+import ClassStudentRow from "./ClassStudentRow";
 
 class EditStudent extends Component {
   constructor(props) {
@@ -85,12 +85,41 @@ class EditStudent extends Component {
     });
   };
 
-  DataTable() {
-    return this.state.nonStudents.map((res, i) => {
-      return <ClassStudentRow obj={res} key={res._id}/>;
+  DataTable(studentType, inClass) {
+    return studentType.map((res, i) => {
+      return <ClassStudentRow obj={res} inClass={inClass} key={res._id} />;
     });
   }
 
+  notStudentTable() {
+    return (
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Pin</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>{this.DataTable(this.state.nonStudents, false)}</tbody>
+      </Table>
+    );
+  }
+
+  inClassTable() {
+    return (
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Pin</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>{this.DataTable(this.state.classStudents, true)}</tbody>
+      </Table>
+    );
+  }
 
   onSubmit(e) {}
 
@@ -107,16 +136,18 @@ class EditStudent extends Component {
               Taught by {this.state.class.teacher.lastName},{" "}
               {this.state.class.teacher.firstName}
             </h3>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Pin</th>
-                  <th/>
-                </tr>
-              </thead>
-              <tbody>{this.DataTable()}</tbody>
-            </Table>
+            <Container>
+              <Row>
+                <Col>
+                  <h4>Students Attending Class</h4>
+                  {this.inClassTable()}
+                </Col>
+                <Col>
+                  <h4>Students not in this class</h4>
+                  {this.notStudentTable()}
+                </Col>
+              </Row>
+            </Container>
           </div>
         )}
       </div>

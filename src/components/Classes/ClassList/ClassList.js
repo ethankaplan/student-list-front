@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import Table from 'react-bootstrap/table';
+import {Table} from 'react-bootstrap';
 import ClassTableRow from './ClassTableRow';
 
 

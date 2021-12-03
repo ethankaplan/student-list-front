@@ -37,7 +37,11 @@ export default class ClassStudentRow extends Component {
                 <td>{this.props.obj.lastName}, {this.props.obj.firstName}</td>
                 <td>{this.props.obj.rollNum}</td>
                 <td>
-                    
+                {this.props.inClass?
+                <Button variant="danger">Remove</Button>
+                :
+                <Button variant="success">Add</Button>
+                }
                 </td>
                 
                 
