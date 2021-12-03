@@ -20,6 +20,10 @@ export default class CreateStudent extends Component {
     }
   }
 
+  componentDidMount(){
+    this.generate()
+  }
+
   generate =e=>{
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/students/gen`)
       .then(res=>
@@ -76,7 +80,7 @@ export default class CreateStudent extends Component {
 
         <Form.Group controlId="Name">
           <Row><Col><Form.Label>Roll Number</Form.Label></Col>
-          <Col className="d-flex justify-content-end"><Button size='sm' variant="info" onClick={this.generate}> Generate </Button></Col></Row>
+          <Col className="d-flex justify-content-end"><Button size='sm' variant="info" onClick={this.generate}> Generate New </Button></Col></Row>
           <Form.Control type="text" disabled name="rollNum" value={this.state.rollNum} onChange={e => this.changeHandler(e)} />
         </Form.Group>
 
