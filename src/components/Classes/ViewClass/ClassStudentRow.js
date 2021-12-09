@@ -8,8 +8,10 @@ export default class ClassStudentRow extends Component {
 
     constructor(props) {
         super(props);
-
         
+        this.state={
+            student:this.props.obj
+        }
     }
 
     deleteClass() {
@@ -29,6 +31,7 @@ export default class ClassStudentRow extends Component {
         this.props.getTable();
     }
 
+
     
 
     render() {
@@ -38,9 +41,15 @@ export default class ClassStudentRow extends Component {
                 <td>{this.props.obj.rollNum}</td>
                 <td>
                 {this.props.inClass?
-                <Button variant="danger">Remove</Button>
+                <Button variant="danger" onClick={(e)=>{
+                    e.preventDefault()
+                    this.props.remStudent(this.state.student)
+                }}>Remove</Button>
                 :
-                <Button variant="success">Add</Button>
+                <Button variant="success" onClick={(e)=>{
+                    e.preventDefault()
+                    this.props.addStudent(this.state.student)
+                }}>Add</Button>
                 }
                 </td>
                 

@@ -72,6 +72,28 @@ class EditStudent extends Component {
       });
   }
 
+  addStudent = (student) => {
+    let temp = this.state.classStudents;
+    temp.push(student);
+    this.setState({
+      classStudents: temp,
+      nonStudents: this.state.nonStudents.filter(function (f) {
+        return f !== student;
+      }),
+    });
+  };
+
+  remStudent = (student) => {
+    let temp = this.state.nonStudents;
+    temp.push(student);
+    this.setState({
+      classStudents: this.state.classStudents.filter(function (f) {
+        return f !== student;
+      }),
+      nonStudents: temp
+    });
+  };
+
   componentDidMount() {
     this.getClass();
     this.getNotStudents();
@@ -86,12 +108,22 @@ class EditStudent extends Component {
   };
 
   DataTable(studentType, inClass) {
-    return studentType.map((res, i) => {
-      return <ClassStudentRow obj={res} inClass={inClass} key={res._id} />;
-    });
+    if (typeof studentType == "object") {
+      return studentType.map((res, i) => {
+        return (
+          <ClassStudentRow
+            obj={res}
+            inClass={inClass}
+            key={res._id}
+            addStudent={this.addStudent}
+            remStudent={this.remStudent}
+          />
+        );
+      });
+    }
   }
 
-  notStudentTable() {
+  ClassTable(inClass) {
     return (
       <Table striped bordered hover>
         <thead>
@@ -101,22 +133,12 @@ class EditStudent extends Component {
             <th />
           </tr>
         </thead>
-        <tbody>{this.DataTable(this.state.nonStudents, false)}</tbody>
-      </Table>
-    );
-  }
 
-  inClassTable() {
-    return (
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Pin</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>{this.DataTable(this.state.classStudents, true)}</tbody>
+        <tbody>
+          {inClass
+            ? this.DataTable(this.state.classStudents, inClass)
+            : this.DataTable(this.state.nonStudents, inClass)}
+        </tbody>
       </Table>
     );
   }
@@ -140,11 +162,11 @@ class EditStudent extends Component {
               <Row>
                 <Col>
                   <h4>Students Attending Class</h4>
-                  {this.inClassTable()}
+                  {this.ClassTable(true)}
                 </Col>
                 <Col>
                   <h4>Students not in this class</h4>
-                  {this.notStudentTable()}
+                  {this.ClassTable(false)}
                 </Col>
               </Row>
             </Container>
