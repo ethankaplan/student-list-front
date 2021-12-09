@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import * as routes from "../../../constants/routes";
+import { withRouter } from 'react-router-dom'
 
-export default class CreateClass extends Component {
+class CreateClass extends Component {
   constructor(props) {
     super(props);
 
@@ -62,9 +63,8 @@ export default class CreateClass extends Component {
           `${process.env.REACT_APP_BACKEND_URL}/class/create-class`,
           classObject
         )
-        .then((res) => this.setState({ classID: res.data._id }))
-        .then(
-          this.props.history.push(`/${routes.CLASS}/${this.state.classID}`)
+        .then((res) => this.props.history.push(`${routes.CLASS}/${res.data._id}`)
+         
         );
     }
   }
@@ -115,3 +115,4 @@ export default class CreateClass extends Component {
     );
   }
 }
+export default withRouter(CreateClass)

@@ -6,7 +6,7 @@ import axios from "axios";
 import { withRouter } from "react-router-dom";
 import ClassStudentRow from "./ClassStudentRow";
 
-class EditStudent extends Component {
+class ViewClass extends Component {
   constructor(props) {
     super(props);
 
@@ -14,7 +14,9 @@ class EditStudent extends Component {
 
     this.state = {
       class: null,
-      classEdit: { title: false, teacher: false, students: false },
+      editStudents:false,
+      editTitle:false,
+      editTeacher:false,
 
       nonStudents: [],
       teacherList: [],
@@ -80,6 +82,7 @@ class EditStudent extends Component {
       nonStudents: this.state.nonStudents.filter(function (f) {
         return f !== student;
       }),
+      editStudents:true
     });
   };
 
@@ -90,9 +93,22 @@ class EditStudent extends Component {
       classStudents: this.state.classStudents.filter(function (f) {
         return f !== student;
       }),
-      nonStudents: temp
+      nonStudents: temp,
+      editStudents:true
     });
   };
+
+  saveStudents=e=>{
+    e.preventDefault()
+
+    axios.put(`${process.env.REACT_APP_BACKEND_URL}/class/${this.state.class._id}/update/students`, this.state.classStudents)
+    .then((res) => {
+        console.log(res)
+    }).catch((error) => {
+      console.log(error)
+    })
+
+  }
 
   componentDidMount() {
     this.getClass();
@@ -106,6 +122,7 @@ class EditStudent extends Component {
       [e.target.name]: e.target.value,
     });
   };
+
 
   DataTable(studentType, inClass) {
     if (typeof studentType == "object") {
@@ -143,6 +160,8 @@ class EditStudent extends Component {
     );
   }
 
+  
+
   onSubmit(e) {}
 
   render() {
@@ -169,6 +188,7 @@ class EditStudent extends Component {
                   {this.ClassTable(false)}
                 </Col>
               </Row>
+              <Row><Button variant="secondary" onClick={(e)=>this.saveStudents(e)}>Save Students</Button></Row>
             </Container>
           </div>
         )}
@@ -177,4 +197,4 @@ class EditStudent extends Component {
   }
 }
 
-export default withRouter(EditStudent);
+export default withRouter(ViewClass);
