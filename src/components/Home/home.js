@@ -14,7 +14,7 @@ export default class Home extends Component {
         </div>
         <p />
         <div>
-          This is a tool built by me,{" "}
+          This is a tool built by{" "}
           <a href="https://github.com/ethankaplan" target="_blank">Ethan Kaplan.</a>
           <p />
           The front end code is{" "}
