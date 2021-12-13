@@ -22,6 +22,7 @@ class CreateClass extends Component {
 
   componentDidMount() {
     this.teacherLister();
+    document.title = "New Class"
   }
 
   teacherLister() {

@@ -39,6 +39,7 @@ export default class UserList extends Component {
     this.getTable();
     console.log("there")
     console.log(this.state.users)
+    document.title = "User List"
   }
 
   DataTable() {

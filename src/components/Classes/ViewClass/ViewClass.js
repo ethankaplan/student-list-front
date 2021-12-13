@@ -163,6 +163,7 @@ class ViewClass extends Component {
     this.getClass();
     this.getNotStudents();
     this.teacherLister();
+    document.title = "View/Edit Class"
   }
 
   componentDidUpdate() {}

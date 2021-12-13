@@ -10,16 +10,16 @@ class Login extends Component{
         password:'',
         msg:''
     }
-    componentDidCatchMount(){
-        console.log(this.props)
-    }
+
     changeHandler = e => {
         this.setState({
             [e.target.name]: e.target.value
             
         })
       };
-
+      componentDidMount(){
+        document.title = "dfsdfsdfsd"
+      }
       onSubmit(e) {
           
         e.preventDefault()

@@ -27,6 +27,7 @@ class EditStudent extends Component {
   }
 
   componentDidMount() {
+    document.title = "Edit Student"
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/students/edit-student/` + this.props.match.params.id)
       .then(res => {
         this.setState({

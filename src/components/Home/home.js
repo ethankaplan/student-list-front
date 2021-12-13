@@ -5,6 +5,7 @@ export default class Home extends Component {
   render() {
     return (
       <Container>
+          <title>School Home Page</title>
         <div className="text-center" style={{ margin: "0 8vw 0 8vw" }}>
           Welcome to the teacher and student organization thing.
           <p />

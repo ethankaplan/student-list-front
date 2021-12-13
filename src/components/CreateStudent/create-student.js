@@ -22,6 +22,7 @@ export default class CreateStudent extends Component {
 
   componentDidMount(){
     this.generate()
+    document.title = "New Student"
   }
 
   generate =e=>{

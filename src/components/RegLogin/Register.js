@@ -15,6 +15,10 @@ export default class Register extends Component{
         title:'Select',
         error: ''
     }
+
+    componentDidMount(){
+        document.title = "Register"
+    }
     changeHandler = e => {
         this.setState({
             [e.target.name]: e.target.value

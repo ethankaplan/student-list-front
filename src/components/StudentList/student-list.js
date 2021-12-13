@@ -35,9 +35,9 @@ export default class StudentList extends Component {
     }
   }
 
-
   componentDidMount() {
     this.getTable();
+    document.title = "Student List"
   }
 
   DataTable() {

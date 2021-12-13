@@ -36,6 +36,7 @@ export default class ClassList extends Component {
 
   componentDidMount() {
     this.getTable();
+    document.title = "Class List"
 
   }
 
