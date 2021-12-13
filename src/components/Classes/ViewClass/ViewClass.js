@@ -40,6 +40,10 @@ class ViewClass extends Component {
   }
 
   async getClass() {
+    //returns to loading screen (for edits)
+    this.setState({
+      class: null,
+    });
     await axios
       .get(
         `${process.env.REACT_APP_BACKEND_URL}/class/${this.props.match.params.id}`
@@ -110,7 +114,26 @@ class ViewClass extends Component {
         this.setState({
           editStudents: false,
         });
-        this.getClass()
+        this.getClass();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  saveTitle = (e) => {
+    e.preventDefault();
+    axios
+      .put(
+        `${process.env.REACT_APP_BACKEND_URL}/class/${this.state.class._id}/update/title`,
+        {title:this.state.classTitle}
+      )
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          editTitle: false,
+        });
+        this.getClass();
       })
       .catch((error) => {
         console.log(error);
@@ -130,7 +153,7 @@ class ViewClass extends Component {
         this.setState({
           editTeacher: false,
         });
-        this.getClass()
+        this.getClass();
       })
       .catch((error) => {
         console.log(error);
@@ -232,9 +255,44 @@ class ViewClass extends Component {
         ) : (
           <div>
             <Container>
+              {this.state.editTitle ? (
+                <div>
+                <Row className="d-flex justify-content-center">
+                  <Form.Group controlId="ClassTitle">
+                    <Form.Label>Class Title</Form.Label>
+                    <Form.Control
+                      onChange={(e) => this.changeHandler(e)}
+                      name="classTitle"
+                      value={this.state.classTitle}
+                    />
+                  </Form.Group>
+                  </Row>
+                  <Row className="d-flex justify-content-center"><Button
+          
+          onClick={(e) => this.saveTitle(e)}
+        >Save Title</Button>
+                </Row><p/>
+                  </div>
+              ) : (
+                <Row className="d-flex justify-content-center">
+                  <h2>{this.state.class.title}</h2>
+                </Row>
+              )}
               <Row className="d-flex justify-content-center">
-                <h2>{this.state.class.title}</h2>
-              </Row>
+                <Button
+                  size="sm"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.setState({
+                      editTitle: !this.state.editTitle,
+                      classTitle:this.state.class.title
+                    });
+                  }}
+                >
+                  {this.state.editTitle ? <>Cancel Change</> : <>Edit Title</>}
+                </Button>
+              </Row><p/>
+              {/*TEACHER INFO*/}
               <Row className="d-flex justify-content-center">Taught by </Row>
               <Row className="d-flex justify-content-center">
                 {this.state.editTeacher ? (
@@ -242,7 +300,7 @@ class ViewClass extends Component {
                 ) : (
                   <Row className="d-flex justify-content-center">
                     <h3>
-                      {this.state.class.teacher.lastName},
+                      {this.state.class.teacher.lastName},{" "}
                       {this.state.class.teacher.firstName}
                     </h3>
                   </Row>
@@ -256,6 +314,7 @@ class ViewClass extends Component {
                     e.preventDefault();
                     this.setState({
                       editTeacher: !this.state.editTeacher,
+                      classTeacher: this.state.class.teacher,
                     });
                   }}
                 >
@@ -268,6 +327,7 @@ class ViewClass extends Component {
               </Row>
               <p />
             </Container>
+            {/*STUDENT LIST*/}
             <Container>
               <Row>
                 <Col>
