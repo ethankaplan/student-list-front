@@ -14,34 +14,33 @@ class ViewClass extends Component {
 
     this.state = {
       class: null,
-      editStudents:false,
-      editTitle:false,
-      editTeacher:false,
+      editStudents: false,
+      editTitle: false,
+      editTeacher: false,
 
       nonStudents: [],
-      teacherList: [],
+      teachList: [],
       classTitle: "",
       classTeacher: {},
       classStudents: [{}],
     };
   }
 
-  teacherLister() {
-    axios
+  async teacherLister() {
+    await axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/user/teachers`)
       .then((res) => {
         this.setState({
           teachList: res.data,
         });
-        console.log(this.state.teachList);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  getClass() {
-    axios
+  async getClass() {
+    await axios
       .get(
         `${process.env.REACT_APP_BACKEND_URL}/class/${this.props.match.params.id}`
       )
@@ -59,8 +58,8 @@ class ViewClass extends Component {
       });
   }
 
-  getNotStudents() {
-    axios
+  async getNotStudents() {
+    await axios
       .get(
         `${process.env.REACT_APP_BACKEND_URL}/class/non/${this.props.match.params.id}`
       )
@@ -82,7 +81,7 @@ class ViewClass extends Component {
       nonStudents: this.state.nonStudents.filter(function (f) {
         return f !== student;
       }),
-      editStudents:true
+      editStudents: true,
     });
   };
 
@@ -94,35 +93,64 @@ class ViewClass extends Component {
         return f !== student;
       }),
       nonStudents: temp,
-      editStudents:true
+      editStudents: true,
     });
   };
 
-  saveStudents=e=>{
-    e.preventDefault()
+  saveStudents = (e) => {
+    e.preventDefault();
 
-    axios.put(`${process.env.REACT_APP_BACKEND_URL}/class/${this.state.class._id}/update/students`, this.state.classStudents)
-    .then((res) => {
-        console.log(res)
-    }).catch((error) => {
-      console.log(error)
-    })
+    axios
+      .put(
+        `${process.env.REACT_APP_BACKEND_URL}/class/${this.state.class._id}/update/students`,
+        this.state.classStudents
+      )
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          editStudents: false,
+        });
+        this.getClass()
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-  }
+  saveTeacher = (e) => {
+    e.preventDefault();
 
+    axios
+      .put(
+        `${process.env.REACT_APP_BACKEND_URL}/class/${this.state.class._id}/update/teacher`,
+        { _id: this.state.classTeacher }
+      )
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          editTeacher: false,
+        });
+        this.getClass()
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   componentDidMount() {
     this.getClass();
     this.getNotStudents();
+    this.teacherLister();
   }
 
   componentDidUpdate() {}
 
   changeHandler = (e) => {
+    console.log(e.target.name);
+    console.log(e.target.value);
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
-
 
   DataTable(studentType, inClass) {
     if (typeof studentType == "object") {
@@ -160,7 +188,39 @@ class ViewClass extends Component {
     );
   }
 
-  
+  TeacherDrop() {
+    return (
+      <Form.Group controlId="formBasicSelect">
+        <Form.Label className="d-flex justify-content-center">
+          Change Teacher
+        </Form.Label>
+        <Form.Control
+          as="select"
+          onChange={(e) => {
+            this.changeHandler(e);
+          }}
+          value={this.state.classTeacher._id}
+          name="classTeacher"
+        >
+          {this.state.teachList.map((teach, i) => {
+            return (
+              <option
+                key={i}
+                label={`${teach.lastName}, ${teach.firstName} - ${teach.rollNum}`}
+                value={teach._id}
+              />
+            );
+          })}
+        </Form.Control>
+        <Button
+          className="d-flex justify-content-center"
+          onClick={(e) => this.saveTeacher(e)}
+        >
+          Save Teacher
+        </Button>
+      </Form.Group>
+    );
+  }
 
   onSubmit(e) {}
 
@@ -171,12 +231,43 @@ class ViewClass extends Component {
           <div>Loading</div>
         ) : (
           <div>
-            <h2>{this.state.class.title}</h2>
-
-            <h3>
-              Taught by {this.state.class.teacher.lastName},{" "}
-              {this.state.class.teacher.firstName}
-            </h3>
+            <Container>
+              <Row className="d-flex justify-content-center">
+                <h2>{this.state.class.title}</h2>
+              </Row>
+              <Row className="d-flex justify-content-center">Taught by </Row>
+              <Row className="d-flex justify-content-center">
+                {this.state.editTeacher ? (
+                  this.TeacherDrop()
+                ) : (
+                  <Row className="d-flex justify-content-center">
+                    <h3>
+                      {this.state.class.teacher.lastName},
+                      {this.state.class.teacher.firstName}
+                    </h3>
+                  </Row>
+                )}
+              </Row>
+              <Row></Row>
+              <Row className="d-flex justify-content-center">
+                <Button
+                  size="sm"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.setState({
+                      editTeacher: !this.state.editTeacher,
+                    });
+                  }}
+                >
+                  {this.state.editTeacher ? (
+                    <>Cancel Change</>
+                  ) : (
+                    <>Edit Teacher</>
+                  )}
+                </Button>
+              </Row>
+              <p />
+            </Container>
             <Container>
               <Row>
                 <Col>
@@ -188,7 +279,18 @@ class ViewClass extends Component {
                   {this.ClassTable(false)}
                 </Col>
               </Row>
-              <Row><Button variant="secondary" onClick={(e)=>this.saveStudents(e)}>Save Students</Button></Row>
+              {this.state.editStudents ? (
+                <Row>
+                  <Button
+                    variant="secondary"
+                    onClick={(e) => this.saveStudents(e)}
+                  >
+                    Save Students
+                  </Button>
+                </Row>
+              ) : (
+                <span />
+              )}
             </Container>
           </div>
         )}
