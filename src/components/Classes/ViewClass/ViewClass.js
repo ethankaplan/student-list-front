@@ -6,7 +6,7 @@ import axios from "axios";
 import { withRouter } from "react-router-dom";
 import ClassStudentRow from "./ClassStudentRow";
 
-class EditStudent extends Component {
+class ViewClass extends Component {
   constructor(props) {
     super(props);
 
@@ -14,32 +14,37 @@ class EditStudent extends Component {
 
     this.state = {
       class: null,
-      classEdit: { title: false, teacher: false, students: false },
+      editStudents: false,
+      editTitle: false,
+      editTeacher: false,
 
       nonStudents: [],
-      teacherList: [],
+      teachList: [],
       classTitle: "",
       classTeacher: {},
       classStudents: [{}],
     };
   }
 
-  teacherLister() {
-    axios
+  async teacherLister() {
+    await axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/user/teachers`)
       .then((res) => {
         this.setState({
           teachList: res.data,
         });
-        console.log(this.state.teachList);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  getClass() {
-    axios
+  async getClass() {
+    //returns to loading screen (for edits)
+    this.setState({
+      class: null,
+    });
+    await axios
       .get(
         `${process.env.REACT_APP_BACKEND_URL}/class/${this.props.match.params.id}`
       )
@@ -57,8 +62,8 @@ class EditStudent extends Component {
       });
   }
 
-  getNotStudents() {
-    axios
+  async getNotStudents() {
+    await axios
       .get(
         `${process.env.REACT_APP_BACKEND_URL}/class/non/${this.props.match.params.id}`
       )
@@ -72,26 +77,121 @@ class EditStudent extends Component {
       });
   }
 
+  addStudent = (student) => {
+    let temp = this.state.classStudents;
+    temp.push(student);
+    this.setState({
+      classStudents: temp,
+      nonStudents: this.state.nonStudents.filter(function (f) {
+        return f !== student;
+      }),
+      editStudents: true,
+    });
+  };
+
+  remStudent = (student) => {
+    let temp = this.state.nonStudents;
+    temp.push(student);
+    this.setState({
+      classStudents: this.state.classStudents.filter(function (f) {
+        return f !== student;
+      }),
+      nonStudents: temp,
+      editStudents: true,
+    });
+  };
+
+  saveStudents = (e) => {
+    e.preventDefault();
+
+    axios
+      .put(
+        `${process.env.REACT_APP_BACKEND_URL}/class/${this.state.class._id}/update/students`,
+        this.state.classStudents
+      )
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          editStudents: false,
+        });
+        this.getClass();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  saveTitle = (e) => {
+    e.preventDefault();
+    axios
+      .put(
+        `${process.env.REACT_APP_BACKEND_URL}/class/${this.state.class._id}/update/title`,
+        {title:this.state.classTitle}
+      )
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          editTitle: false,
+        });
+        this.getClass();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  saveTeacher = (e) => {
+    e.preventDefault();
+
+    axios
+      .put(
+        `${process.env.REACT_APP_BACKEND_URL}/class/${this.state.class._id}/update/teacher`,
+        { _id: this.state.classTeacher }
+      )
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          editTeacher: false,
+        });
+        this.getClass();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   componentDidMount() {
     this.getClass();
     this.getNotStudents();
+    this.teacherLister();
   }
 
   componentDidUpdate() {}
 
   changeHandler = (e) => {
+    console.log(e.target.name);
+    console.log(e.target.value);
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
 
   DataTable(studentType, inClass) {
-    return studentType.map((res, i) => {
-      return <ClassStudentRow obj={res} inClass={inClass} key={res._id} />;
-    });
+    if (typeof studentType == "object") {
+      return studentType.map((res, i) => {
+        return (
+          <ClassStudentRow
+            obj={res}
+            inClass={inClass}
+            key={res._id}
+            addStudent={this.addStudent}
+            remStudent={this.remStudent}
+          />
+        );
+      });
+    }
   }
 
-  notStudentTable() {
+  ClassTable(inClass) {
     return (
       <Table striped bordered hover>
         <thead>
@@ -101,23 +201,47 @@ class EditStudent extends Component {
             <th />
           </tr>
         </thead>
-        <tbody>{this.DataTable(this.state.nonStudents, false)}</tbody>
+
+        <tbody>
+          {inClass
+            ? this.DataTable(this.state.classStudents, inClass)
+            : this.DataTable(this.state.nonStudents, inClass)}
+        </tbody>
       </Table>
     );
   }
 
-  inClassTable() {
+  TeacherDrop() {
     return (
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Pin</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>{this.DataTable(this.state.classStudents, true)}</tbody>
-      </Table>
+      <Form.Group controlId="formBasicSelect">
+        <Form.Label className="d-flex justify-content-center">
+          Change Teacher
+        </Form.Label>
+        <Form.Control
+          as="select"
+          onChange={(e) => {
+            this.changeHandler(e);
+          }}
+          value={this.state.classTeacher._id}
+          name="classTeacher"
+        >
+          {this.state.teachList.map((teach, i) => {
+            return (
+              <option
+                key={i}
+                label={`${teach.lastName}, ${teach.firstName} - ${teach.rollNum}`}
+                value={teach._id}
+              />
+            );
+          })}
+        </Form.Control>
+        <Button
+          className="d-flex justify-content-center"
+          onClick={(e) => this.saveTeacher(e)}
+        >
+          Save Teacher
+        </Button>
+      </Form.Group>
     );
   }
 
@@ -130,23 +254,103 @@ class EditStudent extends Component {
           <div>Loading</div>
         ) : (
           <div>
-            <h2>{this.state.class.title}</h2>
-
-            <h3>
-              Taught by {this.state.class.teacher.lastName},{" "}
-              {this.state.class.teacher.firstName}
-            </h3>
+            <Container>
+              {this.state.editTitle ? (
+                <div>
+                <Row className="d-flex justify-content-center">
+                  <Form.Group controlId="ClassTitle">
+                    <Form.Label>Class Title</Form.Label>
+                    <Form.Control
+                      onChange={(e) => this.changeHandler(e)}
+                      name="classTitle"
+                      value={this.state.classTitle}
+                    />
+                  </Form.Group>
+                  </Row>
+                  <Row className="d-flex justify-content-center"><Button
+          
+          onClick={(e) => this.saveTitle(e)}
+        >Save Title</Button>
+                </Row><p/>
+                  </div>
+              ) : (
+                <Row className="d-flex justify-content-center">
+                  <h2>{this.state.class.title}</h2>
+                </Row>
+              )}
+              <Row className="d-flex justify-content-center">
+                <Button
+                  size="sm"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.setState({
+                      editTitle: !this.state.editTitle,
+                      classTitle:this.state.class.title
+                    });
+                  }}
+                >
+                  {this.state.editTitle ? <>Cancel Change</> : <>Edit Title</>}
+                </Button>
+              </Row><p/>
+              {/*TEACHER INFO*/}
+              <Row className="d-flex justify-content-center">Taught by </Row>
+              <Row className="d-flex justify-content-center">
+                {this.state.editTeacher ? (
+                  this.TeacherDrop()
+                ) : (
+                  <Row className="d-flex justify-content-center">
+                    <h3>
+                      {this.state.class.teacher.lastName},{" "}
+                      {this.state.class.teacher.firstName}
+                    </h3>
+                  </Row>
+                )}
+              </Row>
+              <Row></Row>
+              <Row className="d-flex justify-content-center">
+                <Button
+                  size="sm"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.setState({
+                      editTeacher: !this.state.editTeacher,
+                      classTeacher: this.state.class.teacher,
+                    });
+                  }}
+                >
+                  {this.state.editTeacher ? (
+                    <>Cancel Change</>
+                  ) : (
+                    <>Edit Teacher</>
+                  )}
+                </Button>
+              </Row>
+              <p />
+            </Container>
+            {/*STUDENT LIST*/}
             <Container>
               <Row>
                 <Col>
                   <h4>Students Attending Class</h4>
-                  {this.inClassTable()}
+                  {this.ClassTable(true)}
                 </Col>
                 <Col>
                   <h4>Students not in this class</h4>
-                  {this.notStudentTable()}
+                  {this.ClassTable(false)}
                 </Col>
               </Row>
+              {this.state.editStudents ? (
+                <Row>
+                  <Button
+                    variant="secondary"
+                    onClick={(e) => this.saveStudents(e)}
+                  >
+                    Save Students
+                  </Button>
+                </Row>
+              ) : (
+                <span />
+              )}
             </Container>
           </div>
         )}
@@ -155,4 +359,4 @@ class EditStudent extends Component {
   }
 }
 
-export default withRouter(EditStudent);
+export default withRouter(ViewClass);
