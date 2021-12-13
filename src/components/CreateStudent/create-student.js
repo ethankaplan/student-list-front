@@ -54,6 +54,7 @@ export default class CreateStudent extends Component {
       .then(res => console.log(res.data));
 
     this.setState({ firstName: '',lastName:'', email: '', rollNum: '' })
+    this.generate()
   }
 
 
