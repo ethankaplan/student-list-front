@@ -4,6 +4,7 @@ import axios from 'axios';
 import {Form, Button, Row, Col} from 'react-bootstrap'
 
 
+
 export default class Register extends Component{
     state = {
         firstName: '',
@@ -11,6 +12,7 @@ export default class Register extends Component{
         email:     '',
         accType:   '',
         password:  '',
+        title:'Select',
         error: ''
     }
     changeHandler = e => {
@@ -60,6 +62,18 @@ export default class Register extends Component{
                         <Form.Control onChange={e => this.changeHandler(e)} name="lastName" placeholder="Last name" />
                         </Col>
                     </Row>
+                    {/*<Form.Label>Personal Title</Form.Label>
+                    <Row>
+                        <Col>
+                        <Form.Select name="title">
+                            <option value="Select">Select One</option>
+                            <option value="Ms.">Ms.</option>
+                            <option value="Mrs.">Mrs.</option>
+                            <option value="Mr.">Mr</option>
+                            <option value="Mx.">Mx.</option>
+                        </Form.Select>
+                        </Col>
+                    </Row>*/}
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
@@ -89,11 +103,15 @@ export default class Register extends Component{
                                 type="radio"
                                 label="Teacher"
                                 name="accType"
-                                id="Teach"
-                                value="Teach"
+                                id="Teacher"
+                                value="Teacher"
                                 />
                             </Col>
                         </Form.Group>
+                        
+
+
+
                 </fieldset>
 
                           
