@@ -18,7 +18,7 @@ class Login extends Component{
         })
       };
       componentDidMount(){
-        document.title = "dfsdfsdfsd"
+        document.title = "Login"
       }
       onSubmit(e) {
           

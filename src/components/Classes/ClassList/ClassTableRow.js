@@ -10,6 +10,17 @@ export default class ClassTableRow extends Component {
         super(props);
         this.deleteClass = this.deleteClass.bind(this);
         
+        this.state={
+            teacher:{firstName:"Teacher Missing",lastName:"Please Update"}
+        }
+    }
+    
+    componentDidMount(){
+        if(this.props.obj.teacher!=null){
+            this.setState({
+                teacher:this.props.obj.teacher
+            })
+        }
     }
 
     deleteClass() {
@@ -35,7 +46,7 @@ export default class ClassTableRow extends Component {
         return (
             <tr>
                 <td>{this.props.obj.title}</td>
-                <td>{this.props.obj.teacher.lastName}, {this.props.obj.teacher.firstName}</td>
+                <td>{this.state.teacher.lastName}, {this.state.teacher.firstName}</td>
                 <td>
                     <Link className="edit-link" to={routes.CLASS+ "/" + this.props.obj._id} >
                         View/Edit
